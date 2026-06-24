@@ -10,12 +10,20 @@ No manual downloads. No local storage.
 | os.makedirs to /dbfs/ | Failed — DBFS root disabled in Community Edition |
 | dbutils.fs.cp from /tmp/ | Failed — local filesystem access denied |
 | subprocess download to /tmp/ + shutil.copy to Volume | Success |
+| Databricks Secrets via CLI | Failed — Community Edition limitation |
+| dotenv from local .env file | Failed — Databricks runs in cloud, no access to local files |
+| Databricks Widget | Success — secure token input at runtime |
 
 ## Final Solution
-1. Install kaggle library in notebook: %pip install kaggle
-2. Set KAGGLE_TOKEN via os.environ
+1. Install kaggle library in notebook: %pip install kaggle python-dotenv
+2. Set KAGGLE_TOKEN securely via Databricks Widget at runtime
 3. Download dataset to /tmp/ via kaggle CLI
-4. Copy files to Volume via shutil
+4. Copy files from /tmp/ to Volume via shutil
+
+## Token Security
+Kaggle API token is passed via Databricks Widget at runtime.
+Token is never stored in code or committed to GitHub.
+Widget appears as input field at top of notebook before each run.
 
 ## Storage Location
 /Volumes/workspace/default/ecommerce_raw/
